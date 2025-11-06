@@ -1,0 +1,50 @@
+// Manejar el envío del formulario
+document.getElementById('leadForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // Obtener los valores del formulario
+    const nombre = document.getElementById('nombre').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const negocio = document.getElementById('negocio').value.trim();
+
+    // Validar email
+    if (!email || !isValidEmail(email)) {
+        alert('Por favor, ingresa un email válido.');
+        return;
+    }
+
+    // Crear objeto de datos
+    const leadData = {
+        nombre: nombre || 'No proporcionado',
+        email: email,
+        negocio: negocio || 'No proporcionado',
+        fecha: new Date().toLocaleString('es-ES'),
+        timestamp: new Date().toISOString()
+    };
+
+    // **IMPORTANTE:** Para GitHub Pages, el formulario NO PUEDE guardar datos directamente.
+    // Necesitas un servicio externo como Formspree o Netlify Forms.
+    // Por ahora, solo mostraremos el mensaje de éxito para que el usuario obtenga el Checklist.
+
+    // Mostrar mensaje de éxito
+    document.getElementById('leadForm').style.display = 'none';
+    document.getElementById('successMessage').style.display = 'block';
+
+    // Scroll suave hacia el mensaje de éxito
+    document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
+});
+
+// Función para validar email
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Agregar efecto visual al hacer clic en el botón
+document.querySelector('.btn-submit').addEventListener('click', function() {
+    this.style.opacity = '0.9';
+});
+
+document.querySelector('.btn-submit').addEventListener('mouseup', function() {
+    this.style.opacity = '1';
+});
